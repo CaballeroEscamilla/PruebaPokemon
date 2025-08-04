@@ -1,18 +1,9 @@
-import React from "react";
-import { pokemons } from "./PokeAPI/pokemons";
+//import React from "react";
+//import { NavigationBar } from "./Pages/NavigationBar";
+import { LoginPage } from "./Pages/Login";
 
 function App() {
-  React.useEffect(() => {
-    pokemons
-      .getAll()
-      .then((response) => {
-        console.log(response.results);
-      })
-      .catch((error) => {
-        console.error("Error fetching pokemons:", error);
-      });
-  }, []);
-  return <p>Hola mundo</p>;
+  return <LoginPage />;
 }
 
 export default App;
