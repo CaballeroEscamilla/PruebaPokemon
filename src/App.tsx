@@ -1,9 +1,13 @@
-//import React from "react";
-//import { NavigationBar } from "./Pages/NavigationBar";
-import { LoginPage } from "./Pages/Login";
+import { AppRouter } from "./Router";
+import { store } from "./store/store";
+import { Provider } from "react-redux";
 
 function App() {
-  return <LoginPage />;
+  return (
+    <Provider store={store}>
+      <AppRouter />
+    </Provider>
+  );
 }
 
 export default App;

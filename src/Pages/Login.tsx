@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import React from "react";
-//import { pokemons } from "./PokeAPI/pokemons";
+import { useNavigate } from "react-router-dom";
 
 type LoginPageType = {
   email: string;
@@ -16,6 +16,8 @@ type LoginPageType = {
 };
 
 export const LoginPage: React.FC<{}> = () => {
+  const navigate = useNavigate();
+
   const [loginData, setLoginData] = React.useState<LoginPageType>({
     email: "",
     password: "",
@@ -30,18 +32,8 @@ export const LoginPage: React.FC<{}> = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Login Data:", loginData);
-    //location.href = "/pokedex"; // Redirect to Pokedex page after login
-    /*React.useEffect(() => {
-      pokemons
-        .getAll()
-        .then((response) => {
-          console.log(response.results);
-        })
-        .catch((error: unknown) => {
-          console.error("Error fetching pokemons:", error);
-        });
-    }, []);*/
+
+    navigate("/pokedex");
   };
 
   return (
