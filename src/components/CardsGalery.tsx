@@ -34,8 +34,9 @@ export const CardsGallery: React.FC<{}> = () => {
         pokemons.map((pokemon) => (
           <Grid>
             <CardComponent
+              id={pokemon.id}
               key={pokemon.name}
-              picture={pokemon.picture}
+              picture={pokemon.pictures[0]}
               name={pokemon.name}
               Abilities={pokemon.abilities}
               types={pokemon.types}

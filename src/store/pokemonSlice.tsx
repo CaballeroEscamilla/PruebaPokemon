@@ -7,7 +7,8 @@ interface PokemonFiltered {
   name: string;
   abilities: string[];
   types: string[];
-  picture: string;
+  pictures: string[];
+  moves: string[];
 }
 
 // Estado del slice
@@ -33,12 +34,25 @@ export const fetchPokemons = createAsyncThunk(
       response.results.map(async (pokemon) => {
         const id = parseInt(pokemon.url.split("/").slice(-2)[0]); // Funcion donde extraje el ID de la URL
         const details = await pokemons.getById(id);
+        const pictures = [
+          details.sprites.front_default,
+          details.sprites.back_default,
+          details.sprites.front_shiny,
+          details.sprites.back_shiny,
+          details.sprites.front_female,
+          details.sprites.back_female,
+          details.sprites.front_shiny_female,
+          details.sprites.back_shiny_female,
+        ].filter(
+          (sprite): sprite is string => sprite !== null && sprite !== undefined
+        );
         return {
           id: details.id,
           name: details.name,
           abilities: details.abilities.map((ability) => ability.ability.name),
           types: details.types.map((type) => type.type.name),
-          picture: details.sprites.front_default,
+          pictures,
+          moves: details.moves.map((move) => move.move.name),
         };
       })
     );

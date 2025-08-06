@@ -8,7 +8,8 @@ import {
   CardMedia,
 } from "@mui/material";
 
-type CardComponentProps = {
+export type CardComponentProps = {
+  id: number;
   picture: string;
   name: string;
   Abilities: String[];
@@ -59,6 +60,9 @@ export const CardComponent: React.FC<CardComponentProps> = ({
           onClick={onClick}
         >
           Learn More
+        </Button>
+        <Button variant="outlined" size="small" color="primary" disabled>
+          <Typography>Shiny</Typography>
         </Button>
       </CardActions>
     </Card>
