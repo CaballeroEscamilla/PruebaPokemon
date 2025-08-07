@@ -32,13 +32,14 @@ export interface MovementDetailsFull {
   name: string;
   names: unknown[];
   past_values: unknown[];
-  power: number | null;
+  power: number | null; // Esta es una caracteristica importante de los movimientos
   pp: number;
   priority: number;
   stat_changes: unknown[];
   super_contest_effect: unknown[];
   target: unknown[];
   type: {
+    // Esta es una caracteristica importante de los movimientoss
     name: string;
     url: string;
   };

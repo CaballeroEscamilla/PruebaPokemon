@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CardsGallery } from "../components/CardsGalery";
 import PokedexTable from "../components/PokedexTable";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,6 +26,7 @@ export const PokedexPage: React.FC = () => {
   const setList = () => setView("list");
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { pokemons, loading, error } = useSelector(
     (state: RootState) => state.pokemon
   );
@@ -37,6 +39,7 @@ export const PokedexPage: React.FC = () => {
   React.useEffect(() => {
     dispatch(fetchPokemons());
   }, [dispatch]);
+
   if (loading) {
     console.log("Loading...");
   }
@@ -49,34 +52,46 @@ export const PokedexPage: React.FC = () => {
       <Stack direction="row" spacing={1} sx={{ mb: 1, width: "100%" }}>
         <Stack direction="column" sx={{ width: "60%" }}>
           <Typography variant="h3">Pokedex</Typography>
-          <Autocomplete
-            disablePortal
-            options={pokemonsOptions}
-            getOptionLabel={(option) => option.name}
-            onChange={(_event, newValue) => setSelectedPokemon(newValue)}
-            value={selectedPokemon}
-            sx={{ width: 300, marginTop: 2 }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Pokémon"
-                slotProps={{
-                  input: {
-                    ...params.InputProps,
-                    endAdornment: (
-                      <>
-                        {loading && (
-                          <CircularProgress color="inherit" size={20} />
-                        )}
-                        {params.InputProps.endAdornment}
-                      </>
-                    ),
-                  },
-                }}
-              />
-            )}
-            noOptionsText="No se encontraron Pokémon"
-          />
+          <Stack direction="row" spacing={1} sx={{ marginTop: 2 }}>
+            <Autocomplete
+              disablePortal
+              options={pokemonsOptions}
+              getOptionLabel={(option) => option.name}
+              onChange={(_event, newValue) => setSelectedPokemon(newValue)}
+              value={selectedPokemon}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Pokémon"
+                  slotProps={{
+                    input: {
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {loading && (
+                            <CircularProgress color="inherit" size={20} />
+                          )}
+                          {params.InputProps.endAdornment}
+                        </>
+                      ),
+                    },
+                  }}
+                />
+              )}
+              noOptionsText="No se encontraron Pokémon"
+            />
+            <Button
+              variant="contained"
+              disabled={!selectedPokemon}
+              onClick={() =>
+                selectedPokemon && navigate(`/pokemon/${selectedPokemon.id}`)
+              }
+              sx={{ height: 56 }}
+            >
+              Ver Detalles
+            </Button>
+          </Stack>
         </Stack>
         <Stack
           direction="row"
