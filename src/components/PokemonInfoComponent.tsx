@@ -8,13 +8,16 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMoves } from "../store/MoveSlice";
+import type { AppDispatch, RootState } from "../store/store";
 
 export type PokemonInformationProps = {
   id: number;
   name: string;
   abilities: string[];
   types: string[];
-  moves: string[];
+  movements: string[];
 };
 
 export const PokemonInformationComponent: React.FC<PokemonInformationProps> = ({
@@ -22,10 +25,31 @@ export const PokemonInformationComponent: React.FC<PokemonInformationProps> = ({
   name,
   abilities,
   types,
-  moves,
+  movements,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { moves, loading, error } = useSelector(
+    (state: RootState) => state.moves
+  );
+  React.useEffect(() => {
+    dispatch(fetchMoves());
+  }, [dispatch]);
+  if (loading) {
+    return <Box>Loading...</Box>;
+  }
+  if (error) {
+    return <Box>Error: {error}</Box>;
+  }
   return (
-    <Stack direction="row" spacing={2} sx={{ mt: 2, border: "1px solid #ccc" }}>
+    <Stack
+      direction="row"
+      spacing={2}
+      sx={{
+        mt: 2,
+        border: "1px solid #ccc",
+        maxHeight: "250px",
+      }}
+    >
       <Stack sx={{ width: "60%", justifyContent: "flex-end", margin: 2 }}>
         <Card sx={{ padding: 2 }}>
           <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
@@ -57,21 +81,34 @@ export const PokemonInformationComponent: React.FC<PokemonInformationProps> = ({
         </Card>
       </Stack>
       <Stack sx={{ width: "40%", justifyContent: "flex-start" }}>
-        <Card>
+        <Card
+          sx={{
+            maxHeight: "250px",
+          }}
+        >
           <CardHeader title="Moves" />
           <Divider />
-          <Box sx={{ overflowY: "auto", maxHeight: "450px" }}>
-            {moves.map((move, index) => (
-              <React.Fragment key={index}>
-                <Card>
-                  <CardHeader title={move} />
-                  <CardContent>
-                    <Typography variant="body2">{move}</Typography>
-                  </CardContent>
-                </Card>
-                <Divider />
-              </React.Fragment>
-            ))}
+          <Box sx={{ overflowY: "auto", maxHeight: "200px" }}>
+            {movements.map((movement, index) =>
+              moves.map((move) =>
+                index + 1 === move.id ? (
+                  <Card key={index}>
+                    <CardHeader title={movement} />
+                    <CardContent
+                      sx={{ display: "flex", flexDirection: "column" }}
+                    >
+                      <Typography variant="body2">Type: {move.type}</Typography>
+                      <Typography variant="body2">
+                        Accuracy: {move.accuracy}
+                      </Typography>
+                      <Typography variant="body2">
+                        Power: {move.power}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ) : null
+              )
+            )}
           </Box>
         </Card>
       </Stack>

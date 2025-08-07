@@ -35,12 +35,6 @@ export const PokemonInformationPage: React.FC<{}> = ({}) => {
       <Stack
         sx={{ width: "100%", justifyContent: "center", alignItems: "center" }}
       >
-        <Typography variant="h3" sx={{ mb: 2 }}>
-          Pokemon Information
-        </Typography>
-        <Typography variant="body1" sx={{ mb: 2 }}>
-          Here you can find detailed information about your favorite Pokemon.
-        </Typography>
         {pokemon ? (
           <>
             {pokemon.pictures.length > 0 ? (
@@ -54,7 +48,7 @@ export const PokemonInformationPage: React.FC<{}> = ({}) => {
               name={pokemon.name}
               abilities={pokemon.abilities}
               types={pokemon.types}
-              moves={pokemon.moves}
+              movements={pokemon.moves}
             />
           </>
         ) : (
